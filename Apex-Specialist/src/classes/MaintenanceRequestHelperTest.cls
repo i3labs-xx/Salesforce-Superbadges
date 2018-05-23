@@ -8,46 +8,29 @@ private class MaintenanceRequestHelperTest {
 	private static void loadData() {
 		for(Integer i=0;i<300;i++) {
 			newVehicles.add( new Vehicle__c(Name='Vehicle ' + i));
-			newEquipments.add( new Product2(
-											name='Equipment ' + i,
-											cost__c = 30.0 + i,
-											Current_Inventory__c = 10 + i,
-											Lifespan_Months__c = (math.random() * 10).intValue(),
-											Maintenance_Cycle__c = (math.random() * 10).intValue(),
-											Replacement_Part__c = true,
-											Warehouse_SKU__c = '',
-											ProductCode = '')
-							);
+			newEquipments.add( new Product2(name='Equipment ' + i, cost__c = 30.0 + i, 
+				Current_Inventory__c = 10, Lifespan_Months__c = (math.random() * 10).intValue(),
+				Maintenance_Cycle__c = (math.random() * 10).intValue(), Replacement_Part__c = true,
+				Warehouse_SKU__c = '', ProductCode = '')
+			);
 		}
 		insert newVehicles;
 		insert newEquipments;
 
 		for(Integer i=0;i<300;i++) {
 			if(i<150) {
-				newCases.add( new Case(	
-									Type='Routine Maintenance', 
-									Status='New', 
-                                    Origin='web', 
-                                    Vehicle__c=newVehicles[i].id,
-                                    Equipment__c=newEquipments[i].id,
-                                    Subject='Future Routine Checkup Maintenance Request',
-                                    Date_Reported__c= date.today(),
-                                    Date_Due__c=date.today()
-								 )
-						 );
+				newCases.add( new Case(Type='Routine Maintenance', Status='New', Origin='web', 
+					Vehicle__c=newVehicles[i].id, Equipment__c=newEquipments[i].id, 
+					Subject='Future Routine Checkup Maintenance Request', Date_Reported__c= date.today(), 
+					Date_Due__c=date.today())
+				);
 			}
 			else {
-				newCases.add( new Case(	
-									Type='Repair', 
-									Status='New', 
-                                    Origin='web', 
-                                    Vehicle__c=newVehicles[i].id,
-                                    Equipment__c=newEquipments[i].id,
-                                    Subject='Future Routine Checkup Maintenance Request',
-                                    Date_Reported__c= date.today(),
-                                    Date_Due__c=date.today()
-								 )
-						 );
+				newCases.add( new Case(Type='Repair', Status='New', Origin='web', 
+					Vehicle__c=newVehicles[i].id, Equipment__c=newEquipments[i].id,
+					Subject='Future Routine Checkup Maintenance Request', 
+					Date_Reported__c= Date.today(), Date_Due__c=Date.today())
+				);
 			}
 		}
 		insert newCases;
