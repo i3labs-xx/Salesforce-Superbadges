@@ -1,0 +1,27 @@
+<aura:component controller="BoatSearchResults" implements="force:appHostable,flexipage:availableForAllPageTypes">
+    <aura:attribute name="boats" type="Boat__c[]"/>
+    <aura:attribute name="isError" type="Boolean" default="false"/>
+    <aura:attribute name="selectedBoatId" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doSearch}"/>
+    <aura:handler name="BoatSelect" event="c:BoatSelect" action="{!c.onBoatSelect}"/>
+    
+    <aura:method name="search"
+      description="search boats">
+        <aura:attribute name="boatTypeId" type="String" />
+    </aura:method>
+
+    <lightning:layout horizontalAlign="spread" multipleRows="true">
+        <aura:if isTrue="{!v.isError}">
+            <div class="slds-align_absolute-center">
+                No boats found
+            </div>
+        </aura:if>
+        <aura:iteration items="{!v.boats}" var="boat">
+            <lightning:layoutItem flexibility="grow" size="4" mediumDeviceSize="6"
+                largeDeviceSize="3" padding="around-small">
+                <c:BoatTile boat="{!boat}" 
+                            selected="{!boat.Id == v.selectedBoatId ? 'true' : 'false' }"/>
+            </lightning:layoutItem>
+        </aura:iteration>
+    </lightning:layout>
+</aura:component>

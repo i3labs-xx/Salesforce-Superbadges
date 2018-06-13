@@ -1,0 +1,58 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes">
+    <aura:attribute name="boat" type="Boat__c"/>
+    <aura:attribute name="showButton" type="Boolean" default="false"/> 
+    <aura:handler name="boatselected" event="c:BoatSelected" action="{!c.onBoatSelected}" phase="capture"/>
+    <c:BoatDetail boat="{!v.boat}" aura:id="BoatDetailCmp"/>
+
+    <lightning:button label="Full Details" onclick="{!c.onFullDetails }" />
+    <lightning:card iconName="utility:anchor">
+        <aura:set attribute="title">
+            {!v.boat.Contact__r.Name}'s boat
+        </aura:set>
+        <aura:set attribute="actions">
+            <aura:if isTrue='{!v.showButton}'>
+                <lightning:button label="Full Details" onclick="{!c.onFullDetails}"/>
+            </aura:if>
+        </aura:set>
+        <lightning:layout >
+            <lightning:layoutItem flexibility="grow" size="6" mediumDeviceSize="6" largeDeviceSize="6">
+                <div class="slds-p-horizontal--small">
+                    <div class="boatproperty">
+                        <span class="label">Boat Name:</span>
+                        <span>
+                            <ui:outputText value="{!v.boat.Name}"/>
+                        </span>
+                    </div>
+                    <div class="boatproperty">
+                        <span class="label">Type:</span>
+                        <span>
+                            <ui:outputText value="{!v.boat.BoatType__r.Name}"/>
+                        </span>
+                    </div>
+                    <div class="boatproperty">
+                        <span class="label">Length:</span>
+                        <span>
+                            <ui:outputText value="{!v.boat.Length__c}"/> ft
+                        </span>
+                    </div>
+                    <div class="boatproperty">
+                        <span class="label">Est. Price:</span>
+                        <span>
+                            <lightning:formattedNumber value="{!v.boat.Price__c}" currencyCode="USD" style="currency" currencyDisplayAs="symbol"/>
+                        </span>
+                    </div>
+                    <div class="boatproperty">
+                        <span class="label">Description:</span>
+                        <span>
+                            <ui:outputRichText class="slds-text-longform" value="{!v.boat.Description__c}"/>
+                        </span>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+        
+            <lightning:layoutItem flexibility="grow" size="6" mediumDeviceSize="6" largeDeviceSize="6">
+                <div class="imageview" style="{!'background-image:url(\'' + v.boat.Picture__c + '\')'}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+</aura:component>
